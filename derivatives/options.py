@@ -8,7 +8,7 @@ class Options(object):
         self.underlying_price = None
 
     @classmethod
-    def call(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str):
+    def call(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str, underlying_name:str):
         functions_args_values = locals()
         option = cls()
         bs = BlackScholes(
@@ -24,6 +24,7 @@ class Options(object):
                 self._option = option
                 self.bs=bs
                 self._buy_or_sell = buy_or_sell
+                self.underlying_name = underlying_name
                 for arg, value in functions_args_values.items():
                     if hasattr(self._option, arg):
                         setattr(self, arg, value)
@@ -47,7 +48,7 @@ class Options(object):
         return Call()
 
     @classmethod
-    def put(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str):
+    def put(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str, underlying_name:str):
         functions_args_values = locals()
         option = cls()
         bs = BlackScholes(
@@ -63,6 +64,7 @@ class Options(object):
                 self._option = option
                 self.bs=bs
                 self._buy_or_sell = buy_or_sell
+                self.underlying_name = underlying_name
                 for arg, value in functions_args_values.items():
                     if hasattr(self._option, arg):
                         setattr(self, arg, value)
