@@ -8,7 +8,7 @@ class Options(object):
         self.underlying_price = None
 
     @classmethod
-    def call(cls, strike, price, expiry, underlying_price, rate):
+    def call(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str):
         functions_args_values = locals()
         option = cls()
         bs = BlackScholes(
@@ -23,6 +23,7 @@ class Options(object):
             def __init__(self):
                 self._option = option
                 self.bs=bs
+                self._buy_or_sell = buy_or_sell
                 for arg, value in functions_args_values.items():
                     if hasattr(self._option, arg):
                         setattr(self, arg, value)
@@ -30,15 +31,23 @@ class Options(object):
                         pass
 
             def payoff(self, underlying_price):
-                if (underlying_price - self.strike) >= 0:
-                    return (underlying_price - self.strike) - self.price
+                if self._buy_or_sell == 'buy':
+                    if (underlying_price - self.strike) >= 0:
+                        return (underlying_price - self.strike) - self.price
+                    else:
+                        return -self.price
+                elif self._buy_or_sell == 'sell':
+                    if (underlying_price - self.strike) >= 0:
+                        return -((underlying_price - self.strike) - self.price)
+                    else:
+                        return self.price
                 else:
-                    return -self.price
+                    return TypeError("buy_or_sell can be either buy or sell")
 
         return Call()
 
     @classmethod
-    def put(cls, strike, price, expiry, underlying_price, rate):
+    def put(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str):
         functions_args_values = locals()
         option = cls()
         bs = BlackScholes(
@@ -53,6 +62,7 @@ class Options(object):
             def __init__(self):
                 self._option = option
                 self.bs=bs
+                self._buy_or_sell = buy_or_sell
                 for arg, value in functions_args_values.items():
                     if hasattr(self._option, arg):
                         setattr(self, arg, value)
@@ -60,9 +70,17 @@ class Options(object):
                         pass
 
             def payoff(self, underlying_price):
-                if (self.strike - underlying_price) >= 0:
-                    return (self.strike - underlying_price) - self.price
+                if self._buy_or_sell == 'buy':
+                    if (self.strike - underlying_price) >= 0:
+                        return (self.strike - underlying_price) - self.price
+                    else:
+                        return -self.price
+                elif self._buy_or_sell == 'sell':
+                    if (self.strike - underlying_price) >= 0:
+                        return -((self.strike - underlying_price) - self.price)
+                    else:
+                        return self.price
                 else:
-                    return -self.price
+                    return TypeError("buy_or_sell can be either buy or sell")
 
         return Put()
