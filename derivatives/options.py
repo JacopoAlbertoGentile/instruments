@@ -30,7 +30,10 @@ class Options(object):
                         pass
 
             def payoff(self, underlying_price):
-                return (underlying_price - self.strike) - self.price
+                if (underlying_price - self.strike) >= 0:
+                    return (underlying_price - self.strike) - self.price
+                else:
+                    return -self.price
 
         return Call()
 
@@ -57,6 +60,9 @@ class Options(object):
                         pass
 
             def payoff(self, underlying_price):
-                return (self.strike - underlying_price) - self.price
+                if (self.strike - underlying_price) >= 0:
+                    return (self.strike - underlying_price) - self.price
+                else:
+                    return -self.price
 
         return Put()
