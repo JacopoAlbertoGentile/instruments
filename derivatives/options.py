@@ -4,7 +4,7 @@ class Options(object):
     def __init__(self):
         self.strike = None
         self.price = None
-        self.expire = None
+        self.expiry = None
         self.underlying_price = None
 
     @classmethod
