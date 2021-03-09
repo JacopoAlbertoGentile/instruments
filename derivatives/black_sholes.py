@@ -1,4 +1,3 @@
-import numpy as np
 import datetime as dt
 import math as m
 import scipy.stats as st
@@ -12,7 +11,10 @@ class BlackScholes(object):
         self.rate = rate
         self.type = type
         today = dt.datetime.today()
-        T = dt.datetime.strptime(expiry, "%Y-%m-%d")
+        if isinstance(expiry, dt.datetime.date):
+            T = expiry
+        else:
+            T = dt.datetime.strptime(expiry, "%Y-%m-%d")
         T = (T - today).days / 252
         self.T = T
         self.discount_factor = m.exp(-self.rate * self.T)
@@ -42,10 +44,9 @@ class BlackScholes(object):
 
     def gamma(self, vol):
         d1 = (m.log(self.underlying / self.strike) + (
-                self.rate+ 0.5 * vol ** 2) * self.T) / (
+                self.rate + 0.5 * vol ** 2) * self.T) / (
                      vol * m.sqrt(self.T))
         return (st.norm.pdf(d1)) / (vol * self.underlying * m.sqrt(self.T))
-
 
     def vega(self, vol):
         d1 = (m.log(self.underlying / self.strike) + (self.rate + 0.5 * vol ** 2) * self.T) / (
@@ -85,8 +86,6 @@ class BlackScholes(object):
         d1 = (m.log(self.underlying / self.strike) + (self.rate + 0.5 * vol ** 2) * self.T) / (
                 vol * m.sqrt(self.T))
         d2 = d1 - (vol) * m.sqrt(self.T)
-        bs_theta = - (self.underlying * st.norm.pdf(d1) * vol * 0.5 / m.sqrt(self.T)) - self.rate * self.strike * self.discount_factor * st.norm.cdf(d2, 0, 1)
+        bs_theta = - (self.underlying * st.norm.pdf(d1) * vol * 0.5 / m.sqrt(
+            self.T)) - self.rate * self.strike * self.discount_factor * st.norm.cdf(d2, 0, 1)
         return bs_theta
-
-
-
