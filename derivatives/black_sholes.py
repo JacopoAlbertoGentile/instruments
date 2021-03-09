@@ -11,7 +11,7 @@ class BlackScholes(object):
         self.rate = rate
         self.type = type
         today = dt.datetime.today()
-        if isinstance(expiry, dt.datetime.date):
+        if isinstance(expiry, dt.datetime):
             T = expiry
         else:
             T = dt.datetime.strptime(expiry, "%Y-%m-%d")
