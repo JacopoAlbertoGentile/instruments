@@ -12,7 +12,7 @@ class BlackScholes(object):
         self.type = type
         today = dt.datetime.today()
         if isinstance(expiry, str) is False:
-            T = expiry
+            T = dt.datetime(expiry.year, expiry.month,expiry.day)
         else:
             T = dt.datetime.strptime(expiry, "%Y-%m-%d")
         T = (T - today).days / 252
