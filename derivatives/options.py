@@ -6,6 +6,10 @@ class Options(object):
         self.price = None
         self.expiry = None
         self.underlying_price = None
+        self.delta = None
+        self.gamma = None
+        self.vega = None
+        self.theta = None
 
     @classmethod
     def call(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str, underlying_name:str):
