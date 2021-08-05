@@ -34,7 +34,7 @@ class Options(object):
                         setattr(self, arg, value)
                     else:
                         pass
-                self.option_name = str(self.underlying_name) + " C" + str(self.strike) + " " + str(self.expiry)
+                self.option_name = str(self.underlying_name) + " C " + str(self.strike) + " " + str(self.expiry)
 
             def payoff(self, underlying_price):
                 if self._buy_or_sell == 'buy':
@@ -75,7 +75,7 @@ class Options(object):
                         setattr(self, arg, value)
                     else:
                         pass
-                self.option_name = str(self.underlying_name) + " P" + str(self.strike) + " " + str(self.expiry)
+                self.option_name = str(self.underlying_name) + " P " + str(self.strike) + " " + str(self.expiry)
 
             def payoff(self, underlying_price):
                 if self._buy_or_sell == 'buy':
