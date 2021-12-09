@@ -11,6 +11,7 @@ class Options(object):
         self.vega = None
         self.theta = None
 
+
     @classmethod
     def call(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str, underlying_name:str):
         functions_args_values = locals()
@@ -35,6 +36,9 @@ class Options(object):
                     else:
                         pass
                 self.option_name = str(self.underlying_name) + " C " + str(self.strike) + " " + str(self.expiry)
+
+            def __name__(self):
+                return "Call"
 
             def payoff(self, underlying_price):
                 if self._buy_or_sell == 'buy':
@@ -76,6 +80,9 @@ class Options(object):
                     else:
                         pass
                 self.option_name = str(self.underlying_name) + " P " + str(self.strike) + " " + str(self.expiry)
+
+            def __name__(self):
+                return "Put"
 
             def payoff(self, underlying_price):
                 if self._buy_or_sell == 'buy':
