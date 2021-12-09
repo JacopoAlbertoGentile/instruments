@@ -37,7 +37,7 @@ class Options(object):
                         pass
                 self.option_name = str(self.underlying_name) + " C " + str(self.strike) + " " + str(self.expiry)
 
-            def __name__(self):
+            def right(self):
                 return "Call"
 
             def payoff(self, underlying_price):
@@ -81,7 +81,7 @@ class Options(object):
                         pass
                 self.option_name = str(self.underlying_name) + " P " + str(self.strike) + " " + str(self.expiry)
 
-            def __name__(self):
+            def right(self):
                 return "Put"
 
             def payoff(self, underlying_price):
