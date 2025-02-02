@@ -40,7 +40,7 @@ class Options(object):
             def right(self):
                 return "Call"
 
-            def payoff(self, underlying_price):
+            def payoff(self, underlying_price : float):
                 if self._buy_or_sell == 'buy':
                     if (underlying_price - self.strike) >= 0:
                         return (underlying_price - self.strike) - self.price
@@ -84,7 +84,7 @@ class Options(object):
             def right(self):
                 return "Put"
 
-            def payoff(self, underlying_price):
+            def payoff(self, underlying_price : float):
                 if self._buy_or_sell == 'buy':
                     if (self.strike - underlying_price) >= 0:
                         return (self.strike - underlying_price) - self.price
