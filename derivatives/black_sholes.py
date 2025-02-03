@@ -56,7 +56,7 @@ class BlackScholes(object):
         return vega_value
 
     def implied_vol(self, option_mkt_price : float, vol_est : float):
-        print((self.price(vol_est), self.delta(vol_est), self.vega(vol_est)))
+        print(('OptionPrice', self.price(vol_est), 'OptionDelta', self.delta(vol_est), 'OptionVega', self.vega(vol_est)))
         i = 1
         while (i <= 100):
             vol_est = vol_est - ((self.price(vol_est) - option_mkt_price) / self.vega(vol_est))
