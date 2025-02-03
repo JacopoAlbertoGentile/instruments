@@ -1,101 +1,62 @@
 from derivatives.black_sholes import BlackScholes
+import datetime as dt
 
-class Options(object):
-    def __init__(self):
-        self.strike = None
-        self.price = None
-        self.expiry = None
-        self.underlying_price = None
-        self.delta = None
-        self.gamma = None
-        self.vega = None
-        self.theta = None
+class Call(object):
+
+    def __init__(self, strike : float, option_price : float, expiry : dt.datetime, spot : float, interest_rate : float, buy_or_sell:str):
+
+        self.strike = strike
+        self.option_price = option_price
+        self.expiry = expiry
+        self.spot = spot
+        self.interest_rate = interest_rate
+        self.buy_or_sell = buy_or_sell
+        self.bs = BlackScholes(strike=self.strike, spot=self.spot, interest_rate=self.interest_rate, expiry=self.expiry, option_type='C')
 
 
-    @classmethod
-    def call(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str, underlying_name:str):
-        functions_args_values = locals()
-        option = cls()
-        bs = BlackScholes(
-            strike = strike,
-            underlying_price=underlying_price,
-            rate=rate,
-            expiry=expiry,
-            type='C'
-        )
+    def payoff(self, spot : float):
+        if self.buy_or_sell == 'buy':
+            if (spot - self.strike) >= 0:
+                return (spot - self.strike) - self.option_price
+            else:
+                return -self.option_price
 
-        class Call(object):
-            def __init__(self):
-                self._option = option
-                self.bs=bs
-                self._buy_or_sell = buy_or_sell
-                self.underlying_name = underlying_name
-                for arg, value in functions_args_values.items():
-                    if hasattr(self._option, arg):
-                        setattr(self, arg, value)
-                    else:
-                        pass
-                self.option_name = str(self.underlying_name) + " C " + str(self.strike) + " " + str(self.expiry)
+        elif self.buy_or_sell == 'sell':
+            if (spot - self.strike) >= 0:
+                return -((spot - self.strike) - self.option_price)
+            else:
+                return self.option_price
+        else:
+            return TypeError("buy_or_sell can be either buy or sell")
 
-            def right(self):
-                return "Call"
 
-            def payoff(self, underlying_price : float):
-                if self._buy_or_sell == 'buy':
-                    if (underlying_price - self.strike) >= 0:
-                        return (underlying_price - self.strike) - self.price
-                    else:
-                        return -self.price
-                elif self._buy_or_sell == 'sell':
-                    if (underlying_price - self.strike) >= 0:
-                        return -((underlying_price - self.strike) - self.price)
-                    else:
-                        return self.price
-                else:
-                    return TypeError("buy_or_sell can be either buy or sell")
 
-        return Call()
+class Put(object):
 
-    @classmethod
-    def put(cls, strike, price, expiry, underlying_price, rate, buy_or_sell:str, underlying_name:str):
-        functions_args_values = locals()
-        option = cls()
-        bs = BlackScholes(
-            strike = strike,
-            underlying_price=underlying_price,
-            rate=rate,
-            expiry=expiry,
-            type='P'
-        )
+    def __init__(self, strike: float, option_price: float, expiry: dt.datetime, spot: float,
+                 interest_rate: float, buy_or_sell: str):
+        self.strike = strike
+        self.option_price = option_price
+        self.expiry = expiry
+        self.spot = spot
+        self.interest_rate = interest_rate
+        self.buy_or_sell = buy_or_sell
+        self.bs = BlackScholes(strike=self.strike, spot=self.spot, interest_rate=self.interest_rate,
+                               expiry=self.expiry, option_type='P')
 
-        class Put(object):
-            def __init__(self):
-                self._option = option
-                self.bs=bs
-                self._buy_or_sell = buy_or_sell
-                self.underlying_name = underlying_name
-                for arg, value in functions_args_values.items():
-                    if hasattr(self._option, arg):
-                        setattr(self, arg, value)
-                    else:
-                        pass
-                self.option_name = str(self.underlying_name) + " P " + str(self.strike) + " " + str(self.expiry)
 
-            def right(self):
-                return "Put"
 
-            def payoff(self, underlying_price : float):
-                if self._buy_or_sell == 'buy':
-                    if (self.strike - underlying_price) >= 0:
-                        return (self.strike - underlying_price) - self.price
-                    else:
-                        return -self.price
-                elif self._buy_or_sell == 'sell':
-                    if (self.strike - underlying_price) >= 0:
-                        return -((self.strike - underlying_price) - self.price)
-                    else:
-                        return self.price
-                else:
-                    return TypeError("buy_or_sell can be either buy or sell")
+    def payoff(self, spot : float):
+        if self.buy_or_sell == 'buy':
+            if (self.strike - spot) >= 0:
+                return (self.strike - spot) - self.option_price
+            else:
+                return -self.option_price
 
-        return Put()
+        elif self.buy_or_sell == 'sell':
+            if (self.strike - spot) >= 0:
+                return -((self.strike - spot) - self.option_price)
+            else:
+                return self.option_price
+        else:
+            return TypeError("buy_or_sell can be either buy or sell")
