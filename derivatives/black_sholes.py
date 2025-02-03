@@ -4,6 +4,9 @@ import scipy.stats as st
 
 
 class BlackScholes(object):
+    """
+    Class to calculate values for option prices. Check good ways to use locals() the build in function
+    """
     def __init__(self, strike : float, spot : float, interest_rate : float, expiry : dt.datetime, option_type : str, vol : float=None):
         self.strike = strike
         self.spot = spot
