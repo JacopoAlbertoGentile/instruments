@@ -7,7 +7,8 @@ class BlackScholes(object):
     """
     Class to calculate values for option prices. Check good ways to use locals() the build in function
     """
-    def __init__(self, strike : float, spot : float, interest_rate : float, expiry : dt.datetime, option_type : str, vol : float=None):
+    def __init__(self, strike : float, spot : float, interest_rate : float,
+                 expiry : dt.datetime, option_type : str, vol : float=None):
         self.strike = strike
         self.spot = spot
         self.vol = vol
@@ -28,7 +29,7 @@ class BlackScholes(object):
             call = st.norm.cdf(d1, 0, 1) * self.spot- self.discount_factor * self.strike * st.norm.cdf(d2, 0, 1)
             return call
         else:
-            put = st.norm.cdf(-d2, 0, 1) * self.strike * self.discount_factor - st.norm.cdf(-d1, 0, 1) * self.underlying
+            put = st.norm.cdf(-d2, 0, 1) * self.strike * self.discount_factor - st.norm.cdf(-d1, 0, 1)
             return put
 
     def delta(self, vol : float):
@@ -40,7 +41,7 @@ class BlackScholes(object):
             return (deltaBS)
         elif self.option_type == 'Put' or self.option_type == 'P':
             deltaBS = st.norm.cdf(-d1, 0, 1)
-            return (deltaBS)
+            return -(deltaBS)
 
         else:
             return 0
