@@ -29,7 +29,7 @@ class BlackScholes(object):
             call = st.norm.cdf(d1, 0, 1) * self.spot- self.discount_factor * self.strike * st.norm.cdf(d2, 0, 1)
             return call
         else:
-            put = st.norm.cdf(-d2, 0, 1) * self.strike * self.discount_factor - st.norm.cdf(-d1, 0, 1)
+            put = st.norm.cdf(-d2, 0, 1) * self.strike * self.discount_factor - self.spot * st.norm.cdf(-d1, 0, 1)
             return put
 
     def delta(self, vol : float):
