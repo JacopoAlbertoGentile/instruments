@@ -38,9 +38,12 @@ class BlackScholes(object):
         if self.option_type == "Call" or self.option_type == "C":
             deltaBS = st.norm.cdf(d1, 0, 1)
             return (deltaBS)
-        else:
+        elif self.option_type == 'Put' or self.option_type == 'P':
             deltaBS = st.norm.cdf(-d1, 0, 1)
             return (deltaBS)
+
+        else:
+            return 0
 
     def gamma(self, vol : float):
         d1 = (m.log(self.spot/ self.strike) + (

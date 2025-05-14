@@ -11,7 +11,8 @@ class Call(object):
         self.spot = spot
         self.interest_rate = interest_rate
         self.buy_or_sell = buy_or_sell
-        self.bs = BlackScholes(strike=self.strike, spot=self.spot, interest_rate=self.interest_rate, expiry=self.expiry, option_type='C')
+        self.bs = BlackScholes(strike=self.strike, spot=self.spot, interest_rate=self.interest_rate,
+                               expiry=self.expiry, option_type='C')
 
 
     def payoff(self, spot : float):
