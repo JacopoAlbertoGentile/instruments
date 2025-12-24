@@ -1,4 +1,4 @@
-from derivatives.black_sholes import BlackScholes
+from derivatives.black_scholes import BlackScholes
 import datetime as dt
 
 class Call(object):
@@ -31,6 +31,33 @@ class Call(object):
             return TypeError("buy_or_sell can be either buy or sell")
 
 
+    def smooth_payoff(self, spot : float, eps : float=0.5):
+        """
+        Using Smooth payoff quadratic formula, eps is the error to give usually set around 0.5
+        :param spot:
+        :param eps:
+        :return:
+        """
+        if self.buy_or_sell == 'buy':
+
+            call_value = ((spot - self.strike) + ((spot - self.strike)**2 + eps**2)**0.5) / 2
+            return call_value - self.option_price
+
+        elif self.buy_or_sell == 'sell':
+
+            call_value = ((spot - self.strike) + ((spot - self.strike)**2 + eps**2)**0.5) / 2
+            return self.option_price - call_value
+
+        else:
+
+            return TypeError('buy_or_sell can be either buy or sell')
+
+
+
+
+
+
+
 
 class Put(object):
 
@@ -61,3 +88,26 @@ class Put(object):
                 return self.option_price
         else:
             return TypeError("buy_or_sell can be either buy or sell")
+
+
+    def smooth_payoff(self, spot: float, eps: float = 0.5):
+        """
+        Using Smooth payoff quadratic formula, eps is the error to give usually set around 0.5
+        :param spot:
+        :param eps:
+        :return:
+        """
+        if self.buy_or_sell == 'buy':
+
+            put_value = ((self.strike - spot) + ((self.strike - spot)**2 + eps**2)**0.5) / 2
+            return put_value - self.option_price
+
+        elif self.buy_or_sell == 'sell':
+
+            put_value = ((self.strike - spot) + ((self.strike - spot)**2 + eps**2)**0.5) / 2
+            return self.option_price - put_value
+
+        else:
+
+            return TypeError('buy_or_sell can be either buy or sell')
+

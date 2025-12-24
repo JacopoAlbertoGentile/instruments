@@ -93,3 +93,24 @@ class BlackScholes(object):
         bs_theta = - (self.spot* st.norm.pdf(d1) * vol * 0.5 / m.sqrt(
             self.T)) - self.interest_rate * self.strike * self.discount_factor * st.norm.cdf(d2, 0, 1)
         return bs_theta
+
+    def dollar_gamma(self, vol: float):
+        """
+        Dollar Gamma P&L for a 1% spot move
+        """
+        gamma = self.gamma(vol)
+        ds = 0.01 * self.spot
+        return 0.5 * gamma * ds ** 2
+
+    def dollar_gamma_speed(self, vol: float):
+        """
+        Gamma Speed = dGamma / dSpot
+        """
+        d1 = (m.log(self.spot / self.strike) +
+              (self.interest_rate + 0.5 * vol ** 2) * self.T) / (
+              vol * m.sqrt(self.T))
+
+        gamma = self.gamma(vol)
+        speed = -gamma / self.spot * (d1 / (vol * m.sqrt(self.T)) + 1)
+        ds = 0.01 * self.spot
+        return (1.0 / 6.0) * speed * ds ** 3
