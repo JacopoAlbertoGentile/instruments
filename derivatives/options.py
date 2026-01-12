@@ -3,7 +3,7 @@ import datetime as dt
 
 class Call(object):
 
-    def __init__(self, strike : float, option_price : float, expiry : dt.datetime, spot : float, interest_rate : float, buy_or_sell:str):
+    def __init__(self, t : dt.datetime, strike : float, option_price : float, expiry : dt.datetime, spot : float, interest_rate : float, buy_or_sell:str):
 
         self.strike = strike
         self.option_price = option_price
@@ -11,7 +11,7 @@ class Call(object):
         self.spot = spot
         self.interest_rate = interest_rate
         self.buy_or_sell = buy_or_sell
-        self.bs = BlackScholes(strike=self.strike, spot=self.spot, interest_rate=self.interest_rate,
+        self.bs = BlackScholes(t=t, strike=self.strike, spot=self.spot, interest_rate=self.interest_rate,
                                expiry=self.expiry, option_type='C')
 
 
@@ -61,7 +61,7 @@ class Call(object):
 
 class Put(object):
 
-    def __init__(self, strike: float, option_price: float, expiry: dt.datetime, spot: float,
+    def __init__(self, t : dt.datetime, strike: float, option_price: float, expiry: dt.datetime, spot: float,
                  interest_rate: float, buy_or_sell: str):
         self.strike = strike
         self.option_price = option_price
@@ -70,7 +70,7 @@ class Put(object):
         self.interest_rate = interest_rate
         self.buy_or_sell = buy_or_sell
         self.bs = BlackScholes(strike=self.strike, spot=self.spot, interest_rate=self.interest_rate,
-                               expiry=self.expiry, option_type='P')
+                               expiry=self.expiry, option_type='P', t=t)
 
 
 

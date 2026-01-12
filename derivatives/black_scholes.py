@@ -7,7 +7,7 @@ class BlackScholes(object):
     """
     Class to calculate values for option prices. Check good ways to use locals() the build in function
     """
-    def __init__(self, strike : float, spot : float, interest_rate : float,
+    def __init__(self, t : dt.datetime, strike : float, spot : float, interest_rate : float,
                  expiry : dt.datetime, option_type : str, vol : float=None):
         self.strike = strike
         self.spot = spot
@@ -15,8 +15,7 @@ class BlackScholes(object):
         self.interest_rate = interest_rate
         self.option_type = option_type
         self.expiry = expiry
-        today = dt.datetime.today()
-        T = (self.expiry - today).days / 252
+        T = (self.expiry - t).days / 252
         self.T = T
         self.discount_factor = m.exp(-self.interest_rate * self.T)
         self.d1 = None
