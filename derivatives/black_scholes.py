@@ -79,11 +79,11 @@ class BlackScholes(object):
         return (volga)
 
     def vanna(self, vol :float):
-        d1 = (m.log(self.spot/ self.strike) + (self.interest_rate + 0.5 * vol ** 2) * self.T) / (
-                vol * m.sqrt(self.T))
-        dNorm = m.exp(-0.5 * d1 ** 2) * (1 / 2 * m.pi)
-        vanna = m.sqrt(self.T) * dNorm * (1 - d1)
-        return (vanna)
+        d1 = (m.log(self.spot / self.strike) + (self.interest_rate + 0.5 * vol ** 2) * self.T) / (vol * m.sqrt(self.T))
+        d2 = d1 - vol * m.sqrt(self.T)
+        npdf_d1 = (1 / m.sqrt(2 * m.pi)) * m.exp(-0.5 * d1 ** 2)
+        vanna = npdf_d1 * d2 / vol
+        return vanna
 
     def theta(self, vol :float):
         d1 = (m.log(self.spot/ self.strike) + (self.interest_rate + 0.5 * vol ** 2) * self.T) / (
